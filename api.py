@@ -43,6 +43,7 @@ def demo():
                 else:
                     GPIO.output(chan_list[x-1], True)
     updatepins(gettimecode())
+    return "Contgratulations. You have made the lights do a little wiggle. Custom lighting sequences coming soon..."
 
 
 @app.route('/lights', methods=['POST'])
