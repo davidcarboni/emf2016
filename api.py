@@ -34,7 +34,17 @@ def demo():
 
 @app.route('/lights', methods=['POST'])
 def custom():
-    return "Soon this will let you post a custom lighting sequence.."
+    content = request.json
+
+    if not content:
+        return """To run a custom light sequence:
+        <ul>
+        <li>Use the POST methoh (curl -X POST ...)</li>
+        <li>Ensure you pass an application/json content type (curl -H "Content-Type: application/json" ...)</li>
+        <li>Pass a json message in the format {sequence[11000000, 00110000, 00001100, 00000011]} (curl -d '{sequence[11000000, 00110000, 00001100, 00000011]}' ...)</li>
+        </ul>
+        For example: curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://carboni.io:5000/lights
+        """
 
 
 def setup():
