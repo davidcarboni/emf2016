@@ -5,82 +5,28 @@ from jwt import encode, decode
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def hello():
-    return "This is data from the back-end server!"
-
-@app.errorhandler(400)
-def known_error(error=None):
-    app.logger.error("Bad request: '%s'", request.data.decode('UTF8'))
-    message = {
-        'status': 400,
-        'message': "{}: {}".format(error, request.url),
-    }
-    resp = jsonify(message)
-    resp.status_code = 400
-
-    return resp
-
-
-@app.errorhandler(500)
-def unknown_error(error=None):
-    app.logger.error("Error: '%s'", request.data.decode('UTF8'))
-    message = {
-        'status': 500,
-        'message': "Internal server error: " + repr(error),
-    }
-    resp = jsonify(message)
-    resp.status_code = 500
-
-    return resp
-
-
-@app.route('/token', methods=['GET'])
-def profile():
-    version = request.headers.get("Roadtrip-Version")
-    user_id = request.headers.get("Roadtrip-UserId")
-    accessToken = request.headers.get("Roadtrip-FacebookToken")
-    # profile = request.get_json()
-    print("version: " + repr(version))
-    print("user_id: " + repr(user_id))
-    print("accessToken: " + repr(accessToken))
-
-    if user_id:
-        token = encode({"user_id": user_id})
-        return jsonify({"token": token})
-    else:
-        return known_error("Request payload was empty")
-
-
-@app.route('/preferences', methods=['GET'])
-def get_preferences():
-    data = validate_token(request.headers.get("Roadtrip-Token"))
-
-    if data:
-        return jsonify(data)
-    else:
-        return known_error("Please provide a Roadtrip-Token header")
-
-
-@app.route('/preferences', methods=['POST'])
-def set_preferences():
-    data = validate_token(request.headers.get("Roadtrip-Token"))
-
-    if data:
-        return jsonify(data)
-    else:
-        return known_error("Please provide a Roadtrip-Token header")
-
-
-def validate_token(token):
-
-    if token:
-        data = decode(token)
-        return data
-    else:
-        return ""
+    return "Hello, this is the EMF 2016 number '1' sign! To get started, try a GET to <a href='/lights'>/info</a> or <a href='/lights'>/lights</a>."
 
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
+
+@app.route('/info', methods=['GET'])
+def demo():
+    return """This API lets you control the lighs in the nember '1' on the hill above the camp.<br/>
+    By default it's a binary clock. The top five lights represent the hour and the bottom three lights are the number of 10-minutes into the hour.<br/>
+    You can get make the lights flash by GETting <a href='/lights'>/lights</a> (e.g. in your browser)<br/>"""
+
+
+@app.route('/lights', methods=['GET'])
+def demo():
+    return "Soon this will run the lights.py functionality.."
+
+
+@app.route('/lights', methods=['POST'])
+def demo():
+    return "Soon this will let you post a custom lighting sequence.."
