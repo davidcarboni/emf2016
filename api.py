@@ -11,7 +11,6 @@ import RPi.GPIO as GPIO
 THREADS = []
 chan_list = []
 
-
 app = Flask(__name__)
 
 
@@ -29,19 +28,19 @@ def info():
 
 @app.route('/lights', methods=['GET'])
 def demo():
-    for y in range(0,10):
+    for y in range(0, 10):
         sleep(0.2)
         for x in range(0, 8):
             if y % 2 == 0:
                 if x % 2 == 0:
-                    GPIO.output(chan_list[x-1], False)
+                    GPIO.output(chan_list[x - 1], False)
                 else:
-                    GPIO.output(chan_list[x-1], True)
+                    GPIO.output(chan_list[x - 1], True)
             else:
                 if x % 2 == 1:
-                    GPIO.output(chan_list[x-1], False)
+                    GPIO.output(chan_list[x - 1], False)
                 else:
-                    GPIO.output(chan_list[x-1], True)
+                    GPIO.output(chan_list[x - 1], True)
     updatepins(gettimecode())
 
 
@@ -61,17 +60,18 @@ def custom():
 
 
 def setup():
-	global chan_list
-	chan_list = [11,12,13,15,16,18,22,7]
-	GPIO.setmode(GPIO.BOARD)
+    global chan_list
+    chan_list = [11, 12, 13, 15, 16, 18, 22, 7]
+    GPIO.setmode(GPIO.BOARD)
     GPIO.setup(chan_list, GPIO.OUT)
 
+
 def start_clock():
-	global THREADS
-	clock = clock_thread()
+    global THREADS
+    clock = clock_thread()
     clock.daemon = True
-	clock.start()
-	THREADS.append(clock)
+    clock.start()
+    THREADS.append(clock)
 
 
 def updatepins(timecode):
@@ -86,6 +86,7 @@ def updatepins(timecode):
         timecode = timecode >> 1
     GPIO.output(on_list, False)
     GPIO.output(off_list, True)
+
 
 def playhour(timecode):
     GPIO.output(chan_list, False)
@@ -112,6 +113,7 @@ def playquarter(timecode):
             GPIO.output(chan_list[x - 1], False)
     updatepins(timecode)
 
+
 def gettimecode():
     ctime = datetime.now()
     hour = ctime.hour
@@ -119,25 +121,25 @@ def gettimecode():
     timecode = (hour << 3) + tenmins
     return timecode
 
+
 class clock_thread(threading.Thread):
-	def __init__(self):
-		self.alive = True
-		threading.Thread.__init__(self)
+    def __init__(self):
+        self.alive = True
+        threading.Thread.__init__(self)
 
+    def run(self):
+        while self.alive:
+            ctime = datetime.now()
+            timecode = gettimecode()
 
-	def run(self):
-		while self.alive:
-			ctime = datetime.now()
-			timecode = gettimecode()
+            if ctime.minute == 0:
+                playhour(timecode)
+            elif ctime.minute % 10 == 0:
+                playquarter(timecode)
+            else:
+                updatepins(timecode)
 
-			if ctime.minute == 0:
-				playhour(timecode)
-			elif ctime.minute % 10 == 0:
-				playquarter(timecode)
-			else:
-				updatepins(timecode)
-
-			sleep(60)
+            sleep(60)
 
 
 if __name__ == '__main__':
