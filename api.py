@@ -64,7 +64,9 @@ def custom():
     else:
         if isinstance(content['sequence'], list):
             runsequence(content['sequence'])
-        return "sequence has been run. yay."
+            return "sequence has been run. yay."
+        else:
+            return 'nope. got ' + repr(sequence)
 
 def runsequence(seq):
     for val in seq[:100]:
