@@ -18,7 +18,11 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def hello():
     print("Someone accessed /")
-    return "Hello, this is the EMF 2016 number '1' sign! To get started, try a GET to <a href='/info'>/info</a> or <a href='/lights'>/lights</a>."
+    return """
+Hello, this is the EMF 2016 number '1' sign! To get started, try a GET
+to <a href='/info'>/info</a>
+or <a href='/lights'>/lights</a>
+or <a href='/disco'>/disco</a>."""
 
 
 @app.route('/info', methods=['GET'])
@@ -72,7 +76,7 @@ def custom():
 
 @app.route('/disco')
 def disco():
-    sequence = random.sample(range(256), 50)
+    sequence = random.sample(range(256), 25)
     runsequence(sequence)
     return 'disco! {}'.format(sequence)
 
