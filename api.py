@@ -61,7 +61,14 @@ def custom():
         </ul>
         For example: curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://carboni.io:5000/lights
         """
+    else:
+        if isinstance(content, list):
+            runsequence(list)
 
+def runsequence(seq):
+    for i in range(0, min(100, len(seq))):
+        sleep(0.2)
+        updatepins(i)
 
 def setup():
     global chan_list
