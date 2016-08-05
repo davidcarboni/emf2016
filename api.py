@@ -118,5 +118,5 @@ class clock_thread(threading.Thread):
 if __name__ == '__main__':
     setup()
     start_clock()
-    port = int(os.environ.get("PORT", 80))
+    port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
