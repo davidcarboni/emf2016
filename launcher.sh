@@ -1,7 +1,7 @@
 #!/bin/sh
 # launcher.sh
 
-cd /
-cd home/pi
-sudo python clock.py
-cd /
+cd /home/pi/git/emf2016
+export PORT=80
+sudo python api.py
+
