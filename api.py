@@ -6,6 +6,7 @@ import math
 from time import sleep
 from os import system
 from datetime import datetime
+import random
 import RPi.GPIO as GPIO
 
 THREADS = []
@@ -67,6 +68,14 @@ def custom():
             return "sequence has been run. yay."
         else:
             return 'nope. got ' + repr(content)
+
+
+@app.route('/disco')
+def disco():
+    sequence = random.sample(range(256), 50)
+    runsequence(sequence)
+    return 'disco! {}'.format(sequence)
+
 
 def runsequence(seq):
     for val in seq[:100]:
