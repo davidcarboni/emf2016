@@ -48,9 +48,27 @@ def updatepins(timecode):
 	GPIO.output(off_list, True)
 
 def playhour(timecode):
+	GPIO.output(chan_list, False)
+	sleep(0.5)
+	GPIO.output(chan_list, True)
+	sleep(0.5)
+	GPIO.output(chan_list, False)
+	sleep(0.3)
+	for x in range(0, 8):
+		sleep(0.2)
+		GPIO.output(chan_list[x], True)
 	updatepins(timecode)
 
 def playquarter(timecode):
+	for y in range(0,5):
+		for x in range(1, 8):
+			sleep(0.2)
+			GPIO.output(chan_list[x-1], True)
+			GPIO.output(chan_list[x], False)
+		for x in range(7, 0, -1):
+			sleep(0.2)
+			GPIO.output(chan_list[x], True)
+			GPIO.output(chan_list[x-1], False)
 	updatepins(timecode)
 
 class clock_thread(threading.Thread):
