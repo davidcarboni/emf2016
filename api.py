@@ -32,13 +32,13 @@ def demo():
     for y in range(0,10):
         sleep(0.2)
         for x in range(0, 8):
-            if y % 2 = 0:
-                if x % 2 = 0:
+            if y % 2 == 0:
+                if x % 2 == 0:
                     GPIO.output(chan_list[x-1], False)
                 else:
                     GPIO.output(chan_list[x-1], True)
             else:
-                if x % 2 = 1:
+                if x % 2 == 1:
                     GPIO.output(chan_list[x-1], False)
                 else:
                     GPIO.output(chan_list[x-1], True)
