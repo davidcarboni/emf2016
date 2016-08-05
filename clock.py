@@ -96,5 +96,8 @@ class clock_thread(threading.Thread):
 			sleep(60)	
 			pass
 
-setup()
+
+
+if __name__ == '__main__':
+	setup()
 
