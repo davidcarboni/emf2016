@@ -1,11 +1,17 @@
 import os
 from flask import Flask, request, jsonify
-from clock import setup
+import RPi.GPIO as GPIO
 
 
 app = Flask(__name__)
 
-setup()
+
+def setup():
+	global chan_list
+	chan_list = [11,12,13,15,16,18,22,7]
+	GPIO.setmode(GPIO.BOARD)
+	GPIO.setup(chan_list, GPIO.OUT)
+
 
 @app.route("/", methods=['GET'])
 def hello():
@@ -30,5 +36,6 @@ def custom():
 
 
 if __name__ == '__main__':
+    setup()
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
