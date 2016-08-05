@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def hello():
-    return "Hello, this is the EMF 2016 number '1' sign! To get started, try a GET to <a href='/lights'>/info</a> or <a href='/lights'>/lights</a>."
+    return "Hello, this is the EMF 2016 number '1' sign! To get started, try a GET to <a href='/info'>/info</a> or <a href='/lights'>/lights</a>."
 
 
 @app.route('/info', methods=['GET'])
