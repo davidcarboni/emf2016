@@ -63,7 +63,7 @@ def custom():
         """
     else:
         if isinstance(content, list):
-            runsequence(list)
+            runsequence(content)
 
 def runsequence(seq):
     for i in range(0, min(100, len(seq))):
