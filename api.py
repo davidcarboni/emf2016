@@ -82,9 +82,12 @@ def disco():
 
 
 def runsequence(seq):
-    for val in seq[:100]:
-        sleep(0.2)
-        updatepins(val)
+    try:
+        for val in seq[:100]:
+            sleep(0.2)
+            updatepins(val)
+    finally:
+        updatepins(gettimecode())
 
 def setup():
     global chan_list
