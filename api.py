@@ -67,9 +67,9 @@ def custom():
         return "sequence has been run. yay."
 
 def runsequence(seq):
-    for i in range(0, min(100, len(seq))):
+    for val in seq[:100]:
         sleep(0.2)
-        updatepins(seq[i])
+        updatepins(val)
 
 def setup():
     global chan_list
