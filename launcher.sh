@@ -1,6 +1,6 @@
 #!/bin/sh
 # launcher.sh
 
+sudo pkill python
 cd /home/pi/git/emf2016
-sudo python api.py
-
+nohup sudo python api.py &
