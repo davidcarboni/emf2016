@@ -1,8 +1,11 @@
 import os
 from flask import Flask, request, jsonify
+from clock import setup
 
 
 app = Flask(__name__)
+
+setup()
 
 @app.route("/", methods=['GET'])
 def hello():
