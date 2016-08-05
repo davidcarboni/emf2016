@@ -29,7 +29,20 @@ def info():
 
 @app.route('/lights', methods=['GET'])
 def demo():
-    return "Soon this will run the lights.py functionality.."
+    for y in range(0,10):
+        sleep(0.2)
+        for x in range(0, 8):
+            if y % 2 = 0:
+                if x % 2 = 0:
+                    GPIO.output(chan_list[x-1], False)
+                else:
+                    GPIO.output(chan_list[x-1], True)
+            else:
+                if x % 2 = 1:
+                    GPIO.output(chan_list[x-1], False)
+                else:
+                    GPIO.output(chan_list[x-1], True)
+    updatepins(gettimecode())
 
 
 @app.route('/lights', methods=['POST'])
@@ -41,11 +54,12 @@ def setup():
 	global chan_list
 	chan_list = [11,12,13,15,16,18,22,7]
 	GPIO.setmode(GPIO.BOARD)
-	GPIO.setup(chan_list, GPIO.OUT)
+    GPIO.setup(chan_list, GPIO.OUT)
 
 def start_clock():
 	global THREADS
 	clock = clock_thread()
+    clock.daemon = True
 	clock.start()
 	THREADS.append(clock)
 
@@ -62,7 +76,6 @@ def updatepins(timecode):
         timecode = timecode >> 1
     GPIO.output(on_list, False)
     GPIO.output(off_list, True)
-
 
 def playhour(timecode):
     GPIO.output(chan_list, False)
@@ -89,6 +102,13 @@ def playquarter(timecode):
             GPIO.output(chan_list[x - 1], False)
     updatepins(timecode)
 
+def gettimecode():
+    ctime = datetime.now()
+    hour = ctime.hour
+    tenmins = int(math.floor(ctime.minute / 10))
+    timecode = (hour << 3) + tenmins
+    return timecode
+
 class clock_thread(threading.Thread):
 	def __init__(self):
 		self.alive = True
@@ -98,11 +118,7 @@ class clock_thread(threading.Thread):
 	def run(self):
 		while self.alive:
 			ctime = datetime.now()
-			hour = ctime.hour
-
-			tenmins = int(math.floor(ctime.minute / 10))
-
-			timecode = (hour << 3) + tenmins
+			timecode = gettimecode()
 
 			if ctime.minute == 0:
 				playhour(timecode)
