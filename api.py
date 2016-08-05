@@ -112,7 +112,6 @@ class clock_thread(threading.Thread):
 				updatepins(timecode)
 
 			sleep(60)
-			pass
 
 
 if __name__ == '__main__':
