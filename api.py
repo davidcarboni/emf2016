@@ -68,7 +68,7 @@ def custom():
 def runsequence(seq):
     for i in range(0, min(100, len(seq))):
         sleep(0.2)
-        updatepins(i)
+        updatepins(seq[i])
 
 def setup():
     global chan_list
