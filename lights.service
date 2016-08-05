@@ -1,0 +1,13 @@
+[Unit]
+Description=lights daemon
+
+[Service]
+Type=simple
+Restart=always
+User=root
+WorkingDirectory=/home/pi/git/emf2016
+ExecStart=/usr/bin/python /home/pi/git/emf2016/api.py
+#Environment="PORT=5050"
+
+[Install]
+WantedBy=multi-user.target
