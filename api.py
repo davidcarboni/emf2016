@@ -80,7 +80,7 @@ def custom():
 def disco():
     sequence = random.sample(range(256), 25)
     runsequence(sequence)
-    return 'disco! {}'.format(sequence)
+    return "disco! Here's the random sequence that got sent to the sign: {}".format(sequence)
 
 
 def runsequence(seq):
