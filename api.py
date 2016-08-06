@@ -52,7 +52,7 @@ def demo():
                 else:
                     GPIO.output(chan_list[x - 1], True)
     updatepins(gettimecode())
-    return "Congratulations. You have made the lights do a little wiggle. Would you like to send a custom sequence? Try a POST, e.g. 'curl -X POST http://carboni.io/lights' for more information."
+    return "Congratulations. You have made the lights do a little wiggle. If you'd like to send a custom sequence, try a POST, e.g. 'curl -X POST http://carboni.io/lights' for more information."
 
 
 @app.route('/lights', methods=['POST'])
