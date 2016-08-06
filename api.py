@@ -30,7 +30,9 @@ def info():
     print("Someone accessed /info")
     return """This API lets you control the lighs in the nember '1' on the hill above the camp.<br/>
     By default it's a binary clock. The top five lights represent the hour and the bottom three lights are the number of 10-minutes into the hour.<br/>
-    You can get make the lights flash by GETting <a href='/lights'>/lights</a> (e.g. in your browser)<br/>"""
+    You can get make the lights flash by GETting <a href='/lights'>/lights</a> (e.g. in your browser)<br/>
+    GET <a href='/disco'>/disco</a> for a random sequence.
+    """
 
 
 @app.route('/lights', methods=['GET'])
@@ -50,7 +52,7 @@ def demo():
                 else:
                     GPIO.output(chan_list[x - 1], True)
     updatepins(gettimecode())
-    return "Contgratulations. You have made the lights do a little wiggle. Would you like to send a custom sequence? Try a POST, e.g. 'curl -X POST http://carboni.io/lights' for more information."
+    return "Congratulations. You have made the lights do a little wiggle. Would you like to send a custom sequence? Try a POST, e.g. 'curl -X POST http://carboni.io/lights' for more information."
 
 
 @app.route('/lights', methods=['POST'])
@@ -60,18 +62,18 @@ def custom():
     if not content:
         return """To run a custom light sequence:
         <ul>
-        <li>Use the POST methoh (curl -X POST ...)</li>
-        <li>Ensure you pass an application/json content type (curl -H "Content-Type: application/json" ...)</li>
-        <li>Pass a json message in the format {sequence[11000000, 00110000, 00001100, 00000011]} (curl -d '{sequence[11000000, 00110000, 00001100, 00000011]}' ...)</li>
+        <li>Use the POST method (<code>curl -X POST ...</code>)</li>
+        <li>Ensure you pass an application/json content type (<code>curl -H "Content-Type: application/json" </code>...)</li>
+        <li>Pass a json message in the format <code>{"sequence": [0, 127, 255]}</code> (<code>curl -d '{"sequence": [0, 127, 255]}' ...</code>)</li>
         </ul>
-        For example: curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' http://carboni.io:5000/lights
+        For example: <code>curl -H "Content-Type: application/json" -X POST -d '{"sequence": [1, 2, 4, 8, 16, 32]}' http://carboni.io/lights</code>
         """
     else:
         if isinstance(content['sequence'], list):
             runsequence(content['sequence'])
             return "sequence has been run. yay."
         else:
-            return 'nope. got ' + repr(content)
+            return 'expected {"sequence": [...]}, got: ' + repr(content)
 
 
 @app.route('/disco')
