@@ -69,11 +69,12 @@ def custom():
         For example: <code>curl -H "Content-Type: application/json" -X POST -d '{"sequence": [1, 2, 4, 8, 16, 32]}' http://carboni.io/lights</code>
         """
     else:
-        if isinstance(content['sequence'], list):
-            runsequence(content['sequence'])
+        seq = content.get('sequence')
+        if isinstance(seq, list) and all(isinstance(x, int) for x in seq):
+            runsequence(seq)
             return "sequence has been run. yay."
         else:
-            return 'expected {"sequence": [...]}, got: ' + repr(content)
+            return ('expected {"sequence": [int]}, got: ' + repr(content)), 400
 
 
 @app.route('/disco')
