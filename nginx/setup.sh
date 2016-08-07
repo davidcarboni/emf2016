@@ -8,3 +8,5 @@ sudo ln -s ../sites-available/lights
 sudo rm /etc/nginx/sites-enabled/default
 
 cd $directory
+sudo nginx -t
+sudo service nginx reload
